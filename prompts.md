@@ -4,18 +4,28 @@ Keep every prompt actually used, in order. Do not delete failed prompts; add a s
 
 ## Prompt 0 — Understand before coding
 Read `AGENTS.md` and all files in `docs/`. Do not write or modify code yet. Summarize the product, seven screens, queue rules, data that must persist, security boundaries and deployment architecture. Identify contradictions, missing decisions and risks. Propose a phased implementation plan and exact environment variables. Wait for my approval before coding.
+*Date:* 2026-11-22
+*Result:* Success. Architecture summary provided, free-tier guarantees verified, Render IPv4-pooler connection strategy established, and phased plan approved.
 
 ## Prompt 1 — Repository and architecture setup
 Implement setup only. Create a React + Vite + TypeScript + Tailwind frontend and a Node.js + Express + TypeScript backend with Socket.IO. Use hosted PostgreSQL (Supabase PostgreSQL is the target) through a server-side database connection. Add shared types, environment validation, health-check endpoint, CORS configuration, error middleware, lint/format scripts and a clean folder structure. Add `.env.example` files and ensure secrets are not committed. Do not build the seven screens yet. Explain the data model and how local frontend/backend development runs. Run install, typecheck and build; report exact results and changed files.
+*Date:* 2026-11-22
+*Result:* Success. Initialized monorepo (`shared`, `backend`, `frontend`). Configured TypeScript, Tailwind CSS, Express, Socket.IO, health endpoint, `.env.example`, `.gitignore`, and Vitest. Full build, typecheck, and unit test passed with code 0. No secrets committed.
 
 ## Prompt 2 — Database schema and domain rules
 Read `docs/03-flows-rules.md`. Design and implement the PostgreSQL schema/migrations for services, barbers, staff users/roles, daily token counters and queue entries. Add constraints/indexes for one active queue entry per normalized phone, unique daily token, valid statuses and barber active-work limits where practical. Implement server-side domain services for token creation, duplicate detection, barber compatibility, status transitions and wait-time estimates. Use transactions/locking for simultaneous joins and Call Next. Seed clearly labelled demo services/barbers. Do not build UI yet. Add unit/integration tests for critical rules and run them.
+*Date:* 2026-11-22
+*Result:* Success. Designed normalized PostgreSQL schema (salon_settings, services, barbers, staff_users, daily_token_counters, queue_entries, queue_entry_services, queue_status_logs, schema_migrations) with partial unique indexes for single active customer per phone and barber limits. Created versioned SQL migrations and idempotent seed scripts. Implemented domain services for atomic tokens, queue state machine, barber compatibility, wait time estimation, and Indian phone validation. Added 16 automated tests in Vitest (all passed). No secrets committed.
 
 ## Prompt 3 — Shared app shell and design system
 Build the premium Velora visual system and responsive app shell from `docs/02-screens.md`: typography, colour tokens, buttons, inputs, cards, status badges, modal, toast, loading/empty/error states and EN/GU language dictionary. Add route skeletons for all seven screens. Do not implement queue mutations yet. Verify mobile and desktop layouts and report changed files/tests.
+*Date:* 2026-11-22
+*Result:* Success. Built common React application shell with React Router covering all 7 approved routes (`/`, `/join`, `/status/:publicId`, `/reception`, `/barber/:barberId`, `/display`, `/admin`, plus 404). Created reusable design system components (`Button`, `Badge`, `Card`, `Input`, `Skeleton`, `EmptyState`) adhering to the Velora palette (warm ivory, forest green, sage, copper, amber, red). Implemented bilingual English/Gujarati infrastructure (`LanguageContext`, `translations.ts`). Verified touch targets (min 44px) and responsive layouts (mobile, tablet, and 1920x1080 TV layout). Passed all 19 tests, typecheck, and Vite production build. No secrets committed.
 
 ## Prompt 4 — Home and Join Queue
 Build only `/` and `/join` exactly as documented. Use real API data for services, barbers and queue summary; do not hard-code live counts. Implement name/mobile validation, maximum three services, barber selection, live summary and submit loading/error states. Submit to the backend; server calculates totals and validates availability. If phone already has an active entry, show the existing token/status instead of creating another. Test all form cases and do not modify other screens.
+*Date:* 2026-11-22
+*Result:* Success. Built live REST API endpoints (`/api/salon/status`, `/api/services`, `/api/barbers`, `/api/queue/join`, `/api/queue/:publicId`) with Socket.IO event broadcasting. Integrated `HomePage` with live salon status, dynamic wait-time summary, barber availability cards, and bilingual services catalogue. Built interactive 4-step `JoinPage` wizard (Details → Services → Barber → Confirm) with real-time Indian phone normalization (`+91`), 1–3 service multi-selection, and atomic queue entry generation. Implemented duplicate phone detection returning existing active tokens. Added 7 new integration tests in Vitest (26 total tests passing), 0 typecheck errors, and production build passed. No secrets committed.
 
 ## Prompt 5 — Customer tracking
 Build `/status/:publicId`. Show token, compatible queue position, estimated wait, selected services, barber, progress timeline and conditional cancel action. Connect it to real persisted data and Socket.IO. Add reconnect/refetch handling and stale connection state. Test refresh, invalid public ID, cancellation and every status state. Do not expose other customers' personal data.

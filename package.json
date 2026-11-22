@@ -1,0 +1,24 @@
+{
+  "name": "velora-salon-queue",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Velora Salon Queue Management System",
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=@velora/backend",
+    "dev:frontend": "npm run dev --workspace=@velora/frontend",
+    "build": "npm run build --workspace=@velora/shared && npm run build --workspace=@velora/backend && npm run build --workspace=@velora/frontend",
+    "build:shared": "npm run build --workspace=@velora/shared",
+    "build:backend": "npm run build --workspace=@velora/backend",
+    "build:frontend": "npm run build --workspace=@velora/frontend",
+    "typecheck": "npm run build:shared && npm run typecheck --workspace=@velora/shared && npm run typecheck --workspace=@velora/backend && npm run typecheck --workspace=@velora/frontend",
+    "test": "npm run test --workspace=@velora/backend && npm run test --workspace=@velora/frontend"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
