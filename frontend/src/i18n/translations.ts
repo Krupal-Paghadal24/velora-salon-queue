@@ -72,6 +72,10 @@ export const translations = {
     // Screen 2: Join
     'join.title': 'Join the Queue',
     'join.subtitle': 'Enter your details and choose your services to receive your digital queue token.',
+    'join.livePreview': 'Live Queue Preview',
+    'join.peopleWaiting': 'People waiting',
+    'join.previewUnavailable': 'Live queue information is temporarily unavailable.',
+    'join.previewRefreshError': "Couldn't refresh; showing the last available update.",
     'join.step1': 'Your Details',
     'join.step2': 'Services',
     'join.step3': 'Barber Preference',
@@ -322,6 +326,10 @@ export const translations = {
     // Screen 2: Join
     'join.title': 'લાઇનમાં જોડાઓ',
     'join.subtitle': 'તમારું નામ, નંબર અને સેવાઓ પસંદ કરીને ડિજિટલ ટોકન મેળવો.',
+    'join.livePreview': 'લાઇવ કતારની સ્થિતિ',
+    'join.peopleWaiting': 'રાહ જોઈ રહેલા લોકો',
+    'join.previewUnavailable': 'લાઇવ કતારની માહિતી હાલમાં ઉપલબ્ધ નથી.',
+    'join.previewRefreshError': 'માહિતી રિફ્રેશ થઈ શકી નથી; છેલ્લી ઉપલબ્ધ માહિતી બતાવી રહ્યા છીએ.',
     'join.step1': 'તમારી વિગતો',
     'join.step2': 'સેવાઓ',
     'join.step3': 'બાર્બર પસંદગી',

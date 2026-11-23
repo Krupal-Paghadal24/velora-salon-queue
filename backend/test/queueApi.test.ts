@@ -1,9 +1,25 @@
-import { describe, it, expect } from 'vitest';
-import { app } from '../src/app.js';
+import { afterAll, beforeAll, describe, it, expect, vi } from 'vitest';
+
+vi.mock('../src/db/pool.js', () => ({
+  runtimePool: null,
+  query: vi.fn(),
+  getClient: vi.fn(),
+}));
+
 import { SalonService } from '../src/services/salonService.js';
-import { QueueService } from '../src/services/queueService.js';
+import { memoryQueue, memoryTokenGen, QueueService } from '../src/services/queueService.js';
 
 describe('Phase 4: Salon & Queue API Integration', () => {
+  beforeAll(() => {
+    memoryQueue.splice(0);
+    memoryTokenGen.reset();
+  });
+
+  afterAll(() => {
+    memoryQueue.splice(0);
+    memoryTokenGen.reset();
+  });
+
   describe('Salon Status & Catalog Endpoints', () => {
     it('returns public summary with open status, stats, barbers and services', async () => {
       const summary = await SalonService.getPublicSummary();

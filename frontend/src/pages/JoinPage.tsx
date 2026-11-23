@@ -6,12 +6,38 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Badge } from '../components/ui/Badge';
 import { Skeleton } from '../components/ui/Skeleton';
-import { Service, Barber, JoinQueueResponse, INDIAN_PHONE_REGEX } from '@velora/shared';
-import { User, Phone, Check, ArrowRight, ArrowLeft, AlertCircle, Info, Sparkles } from 'lucide-react';
+import { INDIAN_PHONE_REGEX } from '@velora/shared';
+import type { Barber, JoinQueueResponse, PublicSalonSummary, Service } from '@velora/shared';
+import { apiFetch } from '../api/client';
+import { useLiveResource } from '../hooks/useLiveResource';
+import {
+  User,
+  Phone,
+  Check,
+  ArrowRight,
+  ArrowLeft,
+  AlertCircle,
+  Info,
+  Sparkles,
+  Users,
+  Clock,
+  RefreshCw,
+  WifiOff,
+} from 'lucide-react';
 
 export const JoinPage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const {
+    data: queuePreview,
+    error: queuePreviewError,
+    loading: queuePreviewLoading,
+    connected: queuePreviewConnected,
+    refresh: refreshQueuePreview,
+  } = useLiveResource<PublicSalonSummary>(
+    () => apiFetch<PublicSalonSummary>('/api/salon/status'),
+    'join-queue-preview'
+  );
 
   // Wizard Step (1: Details, 2: Services, 3: Barber, 4: Confirm)
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
@@ -157,9 +183,100 @@ export const JoinPage: React.FC = () => {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Page Title */}
       <div className="text-center space-y-1">
-        <h1 className="font-serif text-3xl font-bold text-velora-green">{t('join.title')}</h1>
-        <p className="text-xs sm:text-sm text-velora-green/70">{t('join.subtitle')}</p>
+        <h1 className="font-serif text-3xl font-bold text-velora-charcoal">{t('join.title')}</h1>
+        <p className="text-xs sm:text-sm text-velora-charcoal-light">{t('join.subtitle')}</p>
       </div>
+
+      <Card
+        variant="subtle"
+        padding="sm"
+        className="space-y-3 border-velora-rose/30"
+        aria-live="polite"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-velora-gold-dark" />
+            <h2 className="font-serif text-base font-semibold text-velora-charcoal">
+              {t('join.livePreview')}
+            </h2>
+          </div>
+          {queuePreview && !queuePreviewConnected && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-velora-amber">
+              <WifiOff className="h-3 w-3" />
+              {t('track.reconnecting')}
+            </span>
+          )}
+        </div>
+
+        {queuePreviewLoading && !queuePreview ? (
+          <div className="grid grid-cols-2 gap-3">
+            <Skeleton className="h-16 rounded-xl" />
+            <Skeleton className="h-16 rounded-xl" />
+          </div>
+        ) : queuePreview ? (
+          <>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl border border-velora-ivory-200 bg-white p-3">
+                <div className="mb-1 flex items-center gap-1.5 text-velora-gold-dark">
+                  <Users className="h-4 w-4" />
+                  <p className="text-xs font-medium text-velora-charcoal-light">
+                    {t('join.peopleWaiting')}
+                  </p>
+                </div>
+                <p className="font-serif text-2xl font-bold text-velora-burgundy">
+                  {queuePreview.stats.waitingCount}
+                </p>
+              </div>
+              <div className="rounded-xl border border-velora-ivory-200 bg-white p-3">
+                <div className="mb-1 flex items-center gap-1.5 text-velora-gold-dark">
+                  <Clock className="h-4 w-4" />
+                  <p className="text-xs font-medium text-velora-charcoal-light">
+                    {t('join.estWait')}
+                  </p>
+                </div>
+                <p className="font-serif text-lg font-bold text-velora-rose-dark">
+                  {queuePreview.stats.approxWaitMinutes === null
+                    ? t('track.waitUnavailable')
+                    : `${queuePreview.stats.approxWaitMinutes} ${t('common.minutes')}`}
+                </p>
+              </div>
+            </div>
+            <p className="text-[11px] text-velora-charcoal-light">
+              {t('join.estWaitDisclaimer')}
+            </p>
+            {queuePreviewError && (
+              <div
+                className="flex flex-col gap-2 text-xs text-velora-red sm:flex-row sm:items-center sm:justify-between"
+                role="alert"
+              >
+                <span>{t('join.previewRefreshError')}</span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="min-h-[44px]"
+                  onClick={refreshQueuePreview}
+                  leftIcon={<RefreshCw className="h-3.5 w-3.5" />}
+                >
+                  {t('common.retry')}
+                </Button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="flex flex-col gap-2 text-xs text-velora-charcoal-light sm:flex-row sm:items-center sm:justify-between">
+            <p role="status">{t('join.previewUnavailable')}</p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="min-h-[44px]"
+              onClick={refreshQueuePreview}
+              leftIcon={<RefreshCw className="h-3.5 w-3.5" />}
+            >
+              {t('common.retry')}
+            </Button>
+          </div>
+        )}
+      </Card>
 
       {/* Step Indicator */}
       <div className="grid grid-cols-4 gap-2 text-center text-xs">
@@ -173,10 +290,10 @@ export const JoinPage: React.FC = () => {
             key={s.num}
             className={`p-2 sm:p-2.5 rounded-xl border text-center transition-colors ${
               step === s.num
-                ? 'bg-velora-green text-velora-ivory border-velora-green shadow-sm'
+                ? 'bg-velora-burgundy text-white border-velora-burgundy shadow-sm'
                 : step > s.num
                 ? 'bg-velora-sage-light text-velora-sage-dark border-velora-sage/30'
-                : 'bg-white border-velora-ivory-300 text-velora-green/60'
+                : 'bg-white border-velora-ivory-300 text-velora-charcoal-light'
             }`}
           >
             <p className="font-serif font-bold text-xs">{s.num}</p>
@@ -207,8 +324,8 @@ export const JoinPage: React.FC = () => {
         {step === 1 && (
           <div className="space-y-5 animate-in fade-in-50">
             <div>
-              <h2 className="font-serif text-lg font-bold text-velora-green">{t('join.step1')}</h2>
-              <p className="text-xs text-velora-green/70">Please provide your name and Indian mobile number</p>
+              <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('join.step1')}</h2>
+              <p className="text-xs text-velora-charcoal-light">Please provide your name and Indian mobile number</p>
             </div>
 
             <div className="space-y-4">
@@ -240,7 +357,7 @@ export const JoinPage: React.FC = () => {
             </div>
 
             <div className="pt-4 flex justify-end">
-              <Button variant="copper" size="md" onClick={handleNext} rightIcon={<ArrowRight className="w-4 h-4" />}>
+              <Button variant="primary" size="md" onClick={handleNext} rightIcon={<ArrowRight className="w-4 h-4" />}>
                 {t('join.nextStep')}
               </Button>
             </div>
@@ -252,10 +369,10 @@ export const JoinPage: React.FC = () => {
           <div className="space-y-5 animate-in fade-in-50">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="font-serif text-lg font-bold text-velora-green">{t('join.step2')}</h2>
-                <p className="text-xs text-velora-green/70">{t('join.selectServices')}</p>
+                <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('join.step2')}</h2>
+                <p className="text-xs text-velora-charcoal-light">{t('join.selectServices')}</p>
               </div>
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-velora-ivory-200 text-velora-green">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-velora-ivory-200 text-velora-charcoal">
                 Selected: {selectedServiceIds.length} / 3
               </span>
             </div>
@@ -280,7 +397,7 @@ export const JoinPage: React.FC = () => {
                       onClick={() => toggleService(service.id)}
                       className={`p-3.5 rounded-xl border cursor-pointer flex items-center justify-between transition-all select-none ${
                         isSelected
-                          ? 'border-velora-copper bg-velora-copper-light/60 shadow-sm'
+                          ? 'border-velora-rose bg-velora-rose-light/60 shadow-sm'
                           : 'border-velora-ivory-300 bg-white hover:bg-velora-ivory-100'
                       }`}
                     >
@@ -288,22 +405,22 @@ export const JoinPage: React.FC = () => {
                         <div
                           className={`w-5 h-5 rounded-lg border flex items-center justify-center shrink-0 transition-colors ${
                             isSelected
-                              ? 'bg-velora-copper border-velora-copper text-white'
-                              : 'border-velora-green/30 bg-white'
+                              ? 'bg-velora-rose border-velora-rose text-white'
+                              : 'border-velora-charcoal/30 bg-white'
                           }`}
                         >
                           {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                         </div>
                         <div>
-                          <p className="font-serif font-semibold text-sm text-velora-green">
+                          <p className="font-serif font-semibold text-sm text-velora-charcoal">
                             {language === 'gu' ? service.name_gu : service.name_en}
                           </p>
-                          <p className="text-xs text-velora-green/60">
+                          <p className="text-xs text-velora-charcoal-light">
                             {language === 'gu' ? service.name_en : service.name_gu} • {service.duration_minutes}m
                           </p>
                         </div>
                       </div>
-                      <span className="font-serif font-bold text-velora-copper text-sm">
+                      <span className="font-serif font-bold text-velora-rose-dark text-sm">
                         ₹{Number(service.price_inr).toFixed(0)}
                       </span>
                     </div>
@@ -316,7 +433,7 @@ export const JoinPage: React.FC = () => {
               <Button variant="secondary" size="md" onClick={() => setStep(1)} leftIcon={<ArrowLeft className="w-4 h-4" />}>
                 {t('join.prevStep')}
               </Button>
-              <Button variant="copper" size="md" onClick={handleNext} rightIcon={<ArrowRight className="w-4 h-4" />}>
+              <Button variant="primary" size="md" onClick={handleNext} rightIcon={<ArrowRight className="w-4 h-4" />}>
                 {t('join.nextStep')}
               </Button>
             </div>
@@ -327,8 +444,8 @@ export const JoinPage: React.FC = () => {
         {step === 3 && (
           <div className="space-y-5 animate-in fade-in-50">
             <div>
-              <h2 className="font-serif text-lg font-bold text-velora-green">{t('join.step3')}</h2>
-              <p className="text-xs text-velora-green/70">Pick a specific specialist or choose Any Available Barber</p>
+              <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('join.step3')}</h2>
+              <p className="text-xs text-velora-charcoal-light">Pick a specific specialist or choose Any Available Barber</p>
             </div>
 
             <div className="space-y-3">
@@ -337,7 +454,7 @@ export const JoinPage: React.FC = () => {
                 onClick={() => setPreferredBarberId(null)}
                 className={`p-4 rounded-xl border cursor-pointer flex items-center justify-between transition-all select-none ${
                   preferredBarberId === null
-                    ? 'border-velora-copper bg-velora-copper-light/60 shadow-sm'
+                    ? 'border-velora-rose bg-velora-rose-light/60 shadow-sm'
                     : 'border-velora-ivory-300 bg-white hover:bg-velora-ivory-100'
                 }`}
               >
@@ -345,22 +462,22 @@ export const JoinPage: React.FC = () => {
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
                       preferredBarberId === null
-                        ? 'bg-velora-copper border-velora-copper text-white'
-                        : 'border-velora-green/30 bg-white'
+                        ? 'bg-velora-rose border-velora-rose text-white'
+                        : 'border-velora-charcoal/30 bg-white'
                     }`}
                   >
                     {preferredBarberId === null && <Check className="w-3 h-3 stroke-[3]" />}
                   </div>
                   <div>
                     <div className="flex items-center space-x-2">
-                      <span className="font-serif font-bold text-sm text-velora-green">
+                      <span className="font-serif font-bold text-sm text-velora-charcoal">
                         {t('join.anyBarber')}
                       </span>
                       <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-velora-sage-light text-velora-sage-dark">
                         {t('join.recommended')}
                       </span>
                     </div>
-                    <p className="text-xs text-velora-green/70">{t('join.anyBarberDesc')}</p>
+                    <p className="text-xs text-velora-charcoal-light">{t('join.anyBarberDesc')}</p>
                   </div>
                 </div>
               </div>
@@ -374,7 +491,7 @@ export const JoinPage: React.FC = () => {
                     onClick={() => setPreferredBarberId(barber.id)}
                     className={`p-3.5 rounded-xl border cursor-pointer flex items-center justify-between transition-all select-none ${
                       isSelected
-                        ? 'border-velora-copper bg-velora-copper-light/60 shadow-sm'
+                        ? 'border-velora-rose bg-velora-rose-light/60 shadow-sm'
                         : 'border-velora-ivory-300 bg-white hover:bg-velora-ivory-100'
                     }`}
                   >
@@ -382,15 +499,15 @@ export const JoinPage: React.FC = () => {
                       <div
                         className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
                           isSelected
-                            ? 'bg-velora-copper border-velora-copper text-white'
-                            : 'border-velora-green/30 bg-white'
+                            ? 'bg-velora-rose border-velora-rose text-white'
+                            : 'border-velora-charcoal/30 bg-white'
                         }`}
                       >
                         {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
                       </div>
                       <div>
-                        <p className="font-serif font-semibold text-sm text-velora-green">{barber.name}</p>
-                        <p className="text-xs text-velora-green/60">{barber.speciality || 'Stylist'}</p>
+                        <p className="font-serif font-semibold text-sm text-velora-charcoal">{barber.name}</p>
+                        <p className="text-xs text-velora-charcoal-light">{barber.speciality || 'Stylist'}</p>
                       </div>
                     </div>
                     <Badge status={barber.status} size="sm" />
@@ -403,7 +520,7 @@ export const JoinPage: React.FC = () => {
               <Button variant="secondary" size="md" onClick={() => setStep(2)} leftIcon={<ArrowLeft className="w-4 h-4" />}>
                 {t('join.prevStep')}
               </Button>
-              <Button variant="copper" size="md" onClick={handleNext} rightIcon={<ArrowRight className="w-4 h-4" />}>
+              <Button variant="primary" size="md" onClick={handleNext} rightIcon={<ArrowRight className="w-4 h-4" />}>
                 {t('join.nextStep')}
               </Button>
             </div>
@@ -414,17 +531,17 @@ export const JoinPage: React.FC = () => {
         {step === 4 && (
           <div className="space-y-6 animate-in fade-in-50">
             <div>
-              <h2 className="font-serif text-lg font-bold text-velora-green">{t('join.summaryTitle')}</h2>
-              <p className="text-xs text-velora-green/70">Verify your information before receiving your token</p>
+              <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('join.summaryTitle')}</h2>
+              <p className="text-xs text-velora-charcoal-light">Verify your information before receiving your token</p>
             </div>
 
             {/* Customer Details Box */}
             <div className="p-4 rounded-xl bg-velora-ivory-100 border border-velora-ivory-200 text-xs space-y-1">
-              <p className="text-velora-green font-semibold text-sm">{name}</p>
-              <p className="text-velora-green/70 font-mono">{phone}</p>
-              <p className="text-velora-green/80 pt-1">
+              <p className="text-velora-charcoal font-semibold text-sm">{name}</p>
+              <p className="text-velora-charcoal-light font-mono">{phone}</p>
+              <p className="text-velora-charcoal-light pt-1">
                 Barber Preference:{' '}
-                <strong className="text-velora-green">
+                <strong className="text-velora-charcoal">
                   {selectedBarber ? selectedBarber.name : t('join.anyBarber')}
                 </strong>
               </p>
@@ -432,16 +549,16 @@ export const JoinPage: React.FC = () => {
 
             {/* Selected Services Itemized */}
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-wider font-bold text-velora-green/60">
+              <p className="text-xs uppercase tracking-wider font-bold text-velora-charcoal-light">
                 Selected Services ({selectedServices.length})
               </p>
               <div className="space-y-1.5">
                 {selectedServices.map((service) => (
                   <div key={service.id} className="flex justify-between items-center text-xs py-1 border-b border-velora-ivory-200">
-                    <span className="text-velora-green font-medium">
+                    <span className="text-velora-charcoal font-medium">
                       {language === 'gu' ? service.name_gu : service.name_en} ({service.duration_minutes}m)
                     </span>
-                    <span className="font-serif font-bold text-velora-copper">
+                    <span className="font-serif font-bold text-velora-rose-dark">
                       ₹{Number(service.price_inr).toFixed(0)}
                     </span>
                   </div>
@@ -450,19 +567,19 @@ export const JoinPage: React.FC = () => {
             </div>
 
             {/* Totals Strip */}
-            <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-velora-green text-velora-ivory">
+            <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-velora-burgundy text-white">
               <div>
                 <p className="text-[11px] text-velora-ivory/70 uppercase tracking-wider">{t('join.totalDuration')}</p>
                 <p className="font-serif text-xl font-bold">{totalDuration} min</p>
               </div>
               <div className="text-right">
                 <p className="text-[11px] text-velora-ivory/70 uppercase tracking-wider">{t('join.totalPrice')}</p>
-                <p className="font-serif text-xl font-bold text-velora-copper-light">₹{totalPrice.toFixed(0)}</p>
+                <p className="font-serif text-xl font-bold text-velora-rose-dark">₹{totalPrice.toFixed(0)}</p>
               </div>
             </div>
 
             {/* Privacy Consent */}
-            <p className="text-[11px] text-velora-green/70 leading-relaxed bg-velora-ivory-100 p-3 rounded-xl border border-velora-ivory-200">
+            <p className="text-[11px] text-velora-charcoal-light leading-relaxed bg-velora-ivory-100 p-3 rounded-xl border border-velora-ivory-200">
               {t('join.consent')}
             </p>
 
@@ -472,7 +589,7 @@ export const JoinPage: React.FC = () => {
                 {t('join.prevStep')}
               </Button>
               <Button
-                variant="copper"
+                variant="primary"
                 size="lg"
                 className="flex-1"
                 onClick={handleSubmit}

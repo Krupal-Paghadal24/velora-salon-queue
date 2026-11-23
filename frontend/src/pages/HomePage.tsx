@@ -45,7 +45,7 @@ export const HomePage: React.FC = () => {
             <AlertTriangle className="w-5 h-5 text-velora-red shrink-0" />
             <div>
               <p className="text-sm font-semibold text-velora-red">{t('home.errorTitle')}</p>
-              <p className="text-xs text-velora-green/70">{error} (Render free tier may take ~45s to wake up)</p>
+              <p className="text-xs text-velora-charcoal-light">{error} (Render free tier may take ~45s to wake up)</p>
             </div>
           </div>
           <Button variant="secondary" size="sm" onClick={fetchSalonSummary} leftIcon={<RefreshCw className="w-4 h-4" />}>
@@ -55,17 +55,17 @@ export const HomePage: React.FC = () => {
       )}
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-velora-ivory-100 to-white border border-velora-ivory-300 p-6 sm:p-10 md:p-14 text-center space-y-6">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-velora-ivory-200 border border-velora-ivory-300 text-xs text-velora-copper font-medium">
-          <Sparkles className="w-3.5 h-3.5" />
+      <section className="relative overflow-hidden rounded-3xl bg-white border border-velora-ivory-300 p-6 sm:p-10 md:p-14 text-center space-y-6">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-velora-ivory-200 border border-velora-ivory-300 text-xs text-velora-rose-dark font-medium">
+          <Sparkles className="w-3.5 h-3.5 text-velora-gold-dark" />
           <span>Real-time Salon Queue • Asia/Kolkata</span>
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-velora-green tracking-tight max-w-2xl mx-auto leading-tight">
+        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-velora-charcoal tracking-tight max-w-2xl mx-auto leading-tight">
           {t('home.hero.title')}
         </h1>
 
-        <p className="text-sm sm:text-base text-velora-green/80 max-w-xl mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-velora-charcoal-light max-w-xl mx-auto leading-relaxed">
           {t('home.hero.subtitle')}
         </p>
 
@@ -80,33 +80,33 @@ export const HomePage: React.FC = () => {
           ) : (
             <>
               <div className="bg-velora-ivory-100 rounded-2xl p-3 sm:p-4 border border-velora-ivory-200 text-center">
-                <div className="flex items-center justify-center text-velora-copper mb-1">
+                <div className="flex items-center justify-center text-velora-gold-dark mb-1">
                   <Users className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <p className="text-lg sm:text-2xl font-serif font-bold text-velora-green">
+                <p className="text-lg sm:text-2xl font-serif font-bold text-velora-charcoal">
                   {data?.stats.waitingCount ?? 0}
                 </p>
-                <p className="text-[11px] text-velora-green/70 font-medium">{t('home.stats.waiting')}</p>
+                <p className="text-[11px] text-velora-charcoal-light font-medium">{t('home.stats.waiting')}</p>
               </div>
 
               <div className="bg-velora-ivory-100 rounded-2xl p-3 sm:p-4 border border-velora-ivory-200 text-center">
                 <div className="flex items-center justify-center text-velora-sage-dark mb-1">
                   <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <p className="text-lg sm:text-2xl font-serif font-bold text-velora-green">
+                <p className="text-lg sm:text-2xl font-serif font-bold text-velora-charcoal">
                   {data?.stats.approxWaitMinutes ? `~${data.stats.approxWaitMinutes}m` : '0m'}
                 </p>
-                <p className="text-[11px] text-velora-green/70 font-medium">{t('home.stats.wait')}</p>
+                <p className="text-[11px] text-velora-charcoal-light font-medium">{t('home.stats.wait')}</p>
               </div>
 
               <div className="bg-velora-ivory-100 rounded-2xl p-3 sm:p-4 border border-velora-ivory-200 text-center">
-                <div className="flex items-center justify-center text-velora-copper mb-1">
+                <div className="flex items-center justify-center text-velora-gold-dark mb-1">
                   <Scissors className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <p className="text-lg sm:text-2xl font-serif font-bold text-velora-green">
+                <p className="text-lg sm:text-2xl font-serif font-bold text-velora-charcoal">
                   {data?.stats.onDutyBarbersCount ?? 0}
                 </p>
-                <p className="text-[11px] text-velora-green/70 font-medium">{t('home.stats.barbers')}</p>
+                <p className="text-[11px] text-velora-charcoal-light font-medium">{t('home.stats.barbers')}</p>
               </div>
             </>
           )}
@@ -116,7 +116,7 @@ export const HomePage: React.FC = () => {
         <div className="pt-2">
           <Link to="/join">
             <Button
-              variant="copper"
+              variant="primary"
               size="lg"
               rightIcon={<ArrowRight className="w-4 h-4" />}
               disabled={data?.salon.isOpen === false || data?.salon.isOnlineJoiningEnabled === false}
@@ -135,41 +135,41 @@ export const HomePage: React.FC = () => {
       {/* How It Works */}
       <section className="space-y-6">
         <div className="text-center space-y-1">
-          <h2 className="font-serif text-2xl font-bold text-velora-green">
+          <h2 className="font-serif text-2xl font-bold text-velora-charcoal">
             {t('home.howItWorks.title')}
           </h2>
-          <p className="text-xs text-velora-green/70">Simple, transparent, stress-free salon visits</p>
+          <p className="text-xs text-velora-charcoal-light">Simple, transparent, stress-free salon visits</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card variant="default" padding="md" className="space-y-3">
-            <div className="w-8 h-8 rounded-xl bg-velora-copper-light text-velora-copper font-serif font-bold flex items-center justify-center text-sm">
+            <div className="w-8 h-8 rounded-xl bg-velora-rose-light text-velora-rose-dark font-serif font-bold flex items-center justify-center text-sm">
               1
             </div>
-            <h3 className="font-serif text-base font-semibold text-velora-green">
+            <h3 className="font-serif text-base font-semibold text-velora-charcoal">
               {t('home.step1.title')}
             </h3>
-            <p className="text-xs text-velora-green/75 leading-relaxed">{t('home.step1.desc')}</p>
+            <p className="text-xs text-velora-charcoal-light leading-relaxed">{t('home.step1.desc')}</p>
           </Card>
 
           <Card variant="default" padding="md" className="space-y-3">
             <div className="w-8 h-8 rounded-xl bg-velora-sage-light text-velora-sage-dark font-serif font-bold flex items-center justify-center text-sm">
               2
             </div>
-            <h3 className="font-serif text-base font-semibold text-velora-green">
+            <h3 className="font-serif text-base font-semibold text-velora-charcoal">
               {t('home.step2.title')}
             </h3>
-            <p className="text-xs text-velora-green/75 leading-relaxed">{t('home.step2.desc')}</p>
+            <p className="text-xs text-velora-charcoal-light leading-relaxed">{t('home.step2.desc')}</p>
           </Card>
 
           <Card variant="default" padding="md" className="space-y-3">
-            <div className="w-8 h-8 rounded-xl bg-velora-ivory-200 text-velora-green font-serif font-bold flex items-center justify-center text-sm">
+            <div className="w-8 h-8 rounded-xl bg-velora-ivory-200 text-velora-charcoal font-serif font-bold flex items-center justify-center text-sm">
               3
             </div>
-            <h3 className="font-serif text-base font-semibold text-velora-green">
+            <h3 className="font-serif text-base font-semibold text-velora-charcoal">
               {t('home.step3.title')}
             </h3>
-            <p className="text-xs text-velora-green/75 leading-relaxed">{t('home.step3.desc')}</p>
+            <p className="text-xs text-velora-charcoal-light leading-relaxed">{t('home.step3.desc')}</p>
           </Card>
         </div>
       </section>
@@ -178,8 +178,8 @@ export const HomePage: React.FC = () => {
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-serif text-2xl font-bold text-velora-green">{t('home.barbers.title')}</h2>
-            <p className="text-xs text-velora-green/70">Real-time status of our on-duty specialists</p>
+            <h2 className="font-serif text-2xl font-bold text-velora-charcoal">{t('home.barbers.title')}</h2>
+            <p className="text-xs text-velora-charcoal-light">Real-time status of our on-duty specialists</p>
           </div>
           <Badge status="AVAILABLE" size="sm" />
         </div>
@@ -196,10 +196,10 @@ export const HomePage: React.FC = () => {
             {data?.barbers.map((barber) => (
               <Card key={barber.id} variant="subtle" padding="sm" className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-serif font-semibold text-sm text-velora-green">{barber.name}</span>
+                  <span className="font-serif font-semibold text-sm text-velora-charcoal">{barber.name}</span>
                   <Badge status={barber.status} size="sm" />
                 </div>
-                <p className="text-xs text-velora-green/70">{barber.speciality || 'Styling Specialist'}</p>
+                <p className="text-xs text-velora-charcoal-light">{barber.speciality || 'Styling Specialist'}</p>
               </Card>
             ))}
           </div>
@@ -209,8 +209,8 @@ export const HomePage: React.FC = () => {
       {/* Real Services Catalogue */}
       <section className="space-y-6">
         <div className="text-center space-y-1">
-          <h2 className="font-serif text-2xl font-bold text-velora-green">{t('home.services.title')}</h2>
-          <p className="text-xs text-velora-green/70">All prices in Indian Rupees (₹) including estimated durations</p>
+          <h2 className="font-serif text-2xl font-bold text-velora-charcoal">{t('home.services.title')}</h2>
+          <p className="text-xs text-velora-charcoal-light">All prices in Indian Rupees (₹) including estimated durations</p>
         </div>
 
         {loading ? (
@@ -227,14 +227,14 @@ export const HomePage: React.FC = () => {
             {data.services.map((service) => (
               <Card key={service.id} variant="default" padding="sm" className="flex justify-between items-center">
                 <div>
-                  <p className="font-serif font-semibold text-sm text-velora-green">
+                  <p className="font-serif font-semibold text-sm text-velora-charcoal">
                     {language === 'gu' ? service.name_gu : service.name_en}
                   </p>
-                  <p className="text-xs text-velora-green/60">
+                  <p className="text-xs text-velora-charcoal-light">
                     {language === 'gu' ? service.name_en : service.name_gu} • {service.duration_minutes}m
                   </p>
                 </div>
-                <span className="font-serif font-bold text-velora-copper text-sm">
+                <span className="font-serif font-bold text-velora-rose-dark text-sm">
                   ₹{Number(service.price_inr).toFixed(0)}
                 </span>
               </Card>

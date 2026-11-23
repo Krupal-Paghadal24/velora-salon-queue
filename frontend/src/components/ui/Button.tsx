@@ -2,7 +2,7 @@ import React from 'react';
 import { Loader2 } from 'lucide-react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'copper' | 'secondary' | 'outline' | 'destructive' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'destructive' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -25,17 +25,15 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variants = {
     primary:
-      'bg-velora-green text-velora-ivory hover:bg-velora-green-dark focus:ring-velora-green shadow-sm',
-    copper:
-      'bg-velora-copper text-white hover:bg-velora-copper-dark focus:ring-velora-copper shadow-sm',
+      'bg-velora-burgundy text-white hover:bg-velora-burgundy-dark focus:ring-velora-burgundy shadow-sm',
     secondary:
-      'bg-velora-ivory-200 text-velora-green hover:bg-velora-ivory-300 focus:ring-velora-green/40 border border-velora-ivory-300',
+      'bg-velora-rose-dark text-white hover:bg-velora-burgundy-dark focus:ring-velora-rose border border-velora-rose-dark',
     outline:
-      'bg-transparent text-velora-green border border-velora-green/30 hover:bg-velora-green/5 focus:ring-velora-green/40',
+      'bg-transparent text-velora-charcoal border border-velora-charcoal/30 hover:bg-velora-charcoal/5 focus:ring-velora-charcoal/40',
     destructive:
       'bg-velora-red text-white hover:bg-velora-red/90 focus:ring-velora-red shadow-sm',
     ghost:
-      'bg-transparent text-velora-green hover:bg-velora-ivory-200 focus:ring-velora-green/30',
+      'bg-transparent text-velora-charcoal hover:bg-velora-ivory-200 focus:ring-velora-charcoal/30',
   };
 
   // Min touch target 44px on md & lg

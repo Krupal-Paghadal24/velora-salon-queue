@@ -89,7 +89,7 @@ export const StatusPage: React.FC = () => {
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <Link to="/" className="inline-flex items-center text-xs font-semibold text-velora-copper hover:underline space-x-1">
+        <Link to="/" className="inline-flex items-center text-xs font-semibold text-velora-rose-dark hover:underline space-x-1">
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>{t('action.back')}</span>
         </Link>
@@ -109,12 +109,12 @@ export const StatusPage: React.FC = () => {
         </div>
 
         <div className="space-y-1">
-          <p className="text-xs uppercase tracking-widest text-velora-green/60 font-semibold">{t('status.token')}</p>
-          <p className="font-serif text-6xl font-extrabold text-velora-green tracking-tight">
+          <p className="text-xs uppercase tracking-widest text-velora-charcoal-light font-semibold">{t('status.token')}</p>
+          <p className="font-serif text-6xl font-extrabold text-velora-charcoal tracking-tight">
             {formatToken(entry.daily_token)}
           </p>
-          <p className="text-sm font-semibold text-velora-green">{entry.customer_name}</p>
-          <p className="text-xs text-velora-green/60">
+          <p className="text-sm font-semibold text-velora-charcoal">{entry.customer_name}</p>
+          <p className="text-xs text-velora-charcoal-light">
             {t('track.joinedAt')}{' '}
             {new Date(entry.joined_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {entry.salon_date}
           </p>
@@ -123,18 +123,18 @@ export const StatusPage: React.FC = () => {
         {status === 'WAITING' && (
           <div className="grid grid-cols-2 gap-3 pt-2">
             <div className="bg-velora-ivory-100 rounded-2xl p-4 border border-velora-ivory-200">
-              <p className="text-2xl font-serif font-bold text-velora-green">{entry.position_ahead ?? '—'}</p>
-              <p className="text-[11px] text-velora-green/70">{t('track.positionAhead')}</p>
+              <p className="text-2xl font-serif font-bold text-velora-charcoal">{entry.position_ahead ?? '—'}</p>
+              <p className="text-[11px] text-velora-charcoal-light">{t('track.positionAhead')}</p>
             </div>
             <div className="bg-velora-ivory-100 rounded-2xl p-4 border border-velora-ivory-200">
               <p
-                className={`font-serif font-bold text-velora-copper ${
+                className={`font-serif font-bold text-velora-rose-dark ${
                   entry.estimated_wait_minutes === null ? 'text-sm pt-1.5' : 'text-2xl'
                 }`}
               >
                 {waitText}
               </p>
-              <p className="text-[11px] text-velora-green/70">
+              <p className="text-[11px] text-velora-charcoal-light">
                 {t('status.estWait')} ({t('track.approx')})
               </p>
             </div>
@@ -142,50 +142,50 @@ export const StatusPage: React.FC = () => {
         )}
 
         {status === 'CALLED' && (
-          <div className="p-4 rounded-2xl bg-velora-copper text-white text-sm font-semibold animate-pulse" role="status">
+          <div className="p-4 rounded-2xl bg-velora-rose-dark text-white text-sm font-semibold animate-pulse" role="status">
             {t('track.yourTurn')} {entry.assigned_barber_name || ''}
           </div>
         )}
         {status === 'IN_SERVICE' && (
-          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm font-semibold text-velora-green">
+          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm font-semibold text-velora-charcoal">
             {t('track.inService')}
           </div>
         )}
         {status === 'DONE' && (
-          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm font-semibold text-velora-green">
+          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm font-semibold text-velora-charcoal">
             {t('track.doneMsg')}
           </div>
         )}
         {status === 'CANCELLED' && (
-          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm text-velora-green">
+          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm text-velora-charcoal">
             {t('track.cancelledMsg')}
           </div>
         )}
         {status === 'NO_SHOW' && (
-          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm text-velora-green">
+          <div className="p-4 rounded-2xl bg-velora-ivory-100 border border-velora-ivory-200 text-sm text-velora-charcoal">
             {t('track.noShowMsg')}
           </div>
         )}
 
         <div className="text-left bg-velora-ivory-100 rounded-2xl p-4 border border-velora-ivory-200 text-xs space-y-2">
-          <div className="flex justify-between items-center text-velora-green font-medium">
+          <div className="flex justify-between items-center text-velora-charcoal font-medium">
             <span className="flex items-center space-x-1.5">
-              <Scissors className="w-3.5 h-3.5 text-velora-copper" />
+              <Scissors className="w-3.5 h-3.5 text-velora-gold-dark" />
               <span>
                 {t('track.services')} ({entry.total_duration_minutes} {t('common.minutes')})
               </span>
             </span>
             <span className="font-serif font-bold">₹{entry.total_price_inr.toFixed(0)}</span>
           </div>
-          <ul className="text-velora-green/80 space-y-0.5">
+          <ul className="text-velora-charcoal-light space-y-0.5">
             {entry.services.map((s, i) => (
               <li key={i}>
                 {language === 'gu' ? s.name_gu : s.name_en} · {s.duration_minutes} {t('common.minutes')}
               </li>
             ))}
           </ul>
-          <p className="text-velora-green/70">
-            {t('track.specialist')}: <strong className="text-velora-green">{barberLabel}</strong>
+          <p className="text-velora-charcoal-light">
+            {t('track.specialist')}: <strong className="text-velora-charcoal">{barberLabel}</strong>
           </p>
         </div>
 
@@ -197,7 +197,7 @@ export const StatusPage: React.FC = () => {
               </Button>
             ) : (
               <div className="p-4 rounded-2xl border border-velora-red/30 bg-white space-y-3">
-                <p className="text-sm font-semibold text-velora-green">{t('track.cancelConfirm')}</p>
+                <p className="text-sm font-semibold text-velora-charcoal">{t('track.cancelConfirm')}</p>
                 <div className="flex gap-2">
                   <Button variant="destructive" size="sm" className="flex-1" isLoading={cancelling} onClick={cancel}>
                     {t('track.cancelYes')}
@@ -213,18 +213,18 @@ export const StatusPage: React.FC = () => {
         )}
 
         {!isActive && (
-          <Link to="/join" className="inline-block text-xs font-semibold text-velora-copper hover:underline">
+          <Link to="/join" className="inline-block text-xs font-semibold text-velora-rose-dark hover:underline">
             {t('nav.join')}
           </Link>
         )}
 
-        <div className="flex items-center justify-center space-x-2 text-xs text-velora-green/60 pt-2">
+        <div className="flex items-center justify-center space-x-2 text-xs text-velora-charcoal-light pt-2">
           <span>
             {t('common.refreshed')}{' '}
             {updatedAt ? new Date(updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '—'}
           </span>
           {error && <span className="text-velora-red">· {t('track.reconnecting')}</span>}
-          <button onClick={refresh} className="p-2 hover:text-velora-green transition-colors" title={t('action.refresh')} aria-label={t('action.refresh')}>
+          <button onClick={refresh} className="p-2 hover:text-velora-charcoal transition-colors" title={t('action.refresh')} aria-label={t('action.refresh')}>
             <RefreshCw className="w-3.5 h-3.5" />
           </button>
         </div>

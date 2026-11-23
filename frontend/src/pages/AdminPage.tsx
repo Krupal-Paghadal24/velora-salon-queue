@@ -61,10 +61,10 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
     <div className="space-y-6">
       <div className="border-b border-velora-ivory-300 pb-4">
         <div className="flex items-center space-x-2">
-          <h1 className="font-serif text-2xl md:text-3xl font-bold text-velora-green">{t('admin.title')}</h1>
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-velora-copper text-white">Owner</span>
+          <h1 className="font-serif text-2xl md:text-3xl font-bold text-velora-charcoal">{t('admin.title')}</h1>
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-velora-rose-dark text-white">Owner</span>
         </div>
-        <p className="text-xs text-velora-green/70">{t('admin.subtitle')}</p>
+        <p className="text-xs text-velora-charcoal-light">{t('admin.subtitle')}</p>
       </div>
 
       <div className="flex space-x-1 border-b border-velora-ivory-300 pb-px overflow-x-auto">
@@ -76,11 +76,11 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-t-xl transition-colors border-b-2 whitespace-nowrap min-h-[44px] ${
                 activeTab === tab.id
-                  ? 'border-velora-green text-velora-green bg-white'
-                  : 'border-transparent text-velora-green/60 hover:text-velora-green hover:bg-velora-ivory-200'
+                  ? 'border-velora-burgundy text-velora-burgundy bg-white'
+                  : 'border-transparent text-velora-charcoal-light hover:text-velora-charcoal hover:bg-velora-ivory-200'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4 text-velora-gold-dark" />
               <span>{tab.label}</span>
             </button>
           );
@@ -91,7 +91,7 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
         <div
           role={notice.kind === 'error' ? 'alert' : 'status'}
           className={`p-3 rounded-xl text-xs font-medium border ${
-            notice.kind === 'error' ? 'bg-white border-velora-red/40 text-velora-red' : 'bg-velora-ivory-100 border-velora-ivory-200 text-velora-green'
+            notice.kind === 'error' ? 'bg-white border-velora-red/40 text-velora-red' : 'bg-velora-ivory-100 border-velora-ivory-200 text-velora-charcoal'
           }`}
         >
           {notice.text}
@@ -112,8 +112,8 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
         <Card variant="default" padding="lg" className="space-y-8">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="font-serif text-lg font-bold text-velora-green">{t('admin.joining')}</h2>
-              <p className="text-xs text-velora-green/70">{t('admin.joiningDesc')}</p>
+              <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('admin.joining')}</h2>
+              <p className="text-xs text-velora-charcoal-light">{t('admin.joiningDesc')}</p>
             </div>
             <Button
               variant={data.settings.is_online_joining_enabled ? 'primary' : 'secondary'}
@@ -136,13 +136,13 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
               });
             }}
           >
-            <h2 className="font-serif text-lg font-bold text-velora-green">{t('admin.hours')}</h2>
+            <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('admin.hours')}</h2>
             <div className="grid sm:grid-cols-3 gap-3">
               <Input label={t('admin.opening')} type="time" value={opening} onChange={(e) => setOpening(e.target.value)} required />
               <Input label={t('admin.closing')} type="time" value={closing} onChange={(e) => setClosing(e.target.value)} required />
               <Input label={t('admin.cutoff')} type="number" min={0} max={240} value={cutoff} onChange={(e) => setCutoff(e.target.value)} required />
             </div>
-            <Button type="submit" variant="copper" isLoading={busy === 'hours'}>
+            <Button type="submit" variant="primary" isLoading={busy === 'hours'}>
               {t('admin.saveHours')}
             </Button>
           </form>
@@ -151,13 +151,13 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
 
       {data && activeTab === 'services' && (
         <Card variant="default" padding="lg" className="space-y-4">
-          <p className="text-xs text-velora-green/70">{t('admin.servicesDesc')}</p>
+          <p className="text-xs text-velora-charcoal-light">{t('admin.servicesDesc')}</p>
           <div className="space-y-2">
             {data.services.map((svc) => (
               <div key={svc.id} className="flex items-center justify-between gap-3 border border-velora-ivory-200 rounded-xl p-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-velora-green truncate">{language === 'gu' ? svc.name_gu : svc.name_en}</p>
-                  <p className="text-xs text-velora-green/60">
+                  <p className="text-sm font-semibold text-velora-charcoal truncate">{language === 'gu' ? svc.name_gu : svc.name_en}</p>
+                  <p className="text-xs text-velora-charcoal-light">
                     {svc.duration_minutes} {t('common.minutes')} · ₹{Number(svc.price_inr).toFixed(0)}
                   </p>
                 </div>
@@ -177,13 +177,13 @@ const AdminConsole: React.FC<{ token: string }> = ({ token }) => {
 
       {data && activeTab === 'barbers' && (
         <Card variant="default" padding="lg" className="space-y-4">
-          <p className="text-xs text-velora-green/70">{t('admin.barbersDesc')}</p>
+          <p className="text-xs text-velora-charcoal-light">{t('admin.barbersDesc')}</p>
           <div className="space-y-2">
             {data.barbers.map((b) => (
               <div key={b.id} className="flex items-center justify-between gap-3 border border-velora-ivory-200 rounded-xl p-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-velora-green truncate">{b.name}</p>
-                  <p className="text-xs text-velora-green/60 truncate">{b.speciality}</p>
+                  <p className="text-sm font-semibold text-velora-charcoal truncate">{b.name}</p>
+                  <p className="text-xs text-velora-charcoal-light truncate">{b.speciality}</p>
                 </div>
                 <Button
                   size="sm"

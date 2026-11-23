@@ -83,9 +83,9 @@ export const StaffGate: React.FC<{
   if (session && roles.includes(session.user.role)) {
     return (
       <>
-        <div className="flex justify-end items-center gap-3 text-xs text-velora-green/70 mb-4">
+        <div className="flex justify-end items-center gap-3 text-xs text-velora-charcoal-light mb-4">
           <span>
-            {t('common.signedInAs')} <strong className="text-velora-green">{session.user.full_name}</strong>
+            {t('common.signedInAs')} <strong className="text-velora-charcoal">{session.user.full_name}</strong>
           </span>
           <Button variant="ghost" size="sm" leftIcon={<LogOut className="w-3.5 h-3.5" />} onClick={logout}>
             {t('common.signOut')}
@@ -114,15 +114,15 @@ export const StaffGate: React.FC<{
     <div className="max-w-sm mx-auto py-8">
       <Card variant="elevated" padding="lg" className="space-y-5">
         <div className="text-center space-y-1">
-          <div className="w-12 h-12 mx-auto rounded-2xl bg-velora-ivory-200 flex items-center justify-center text-velora-green/70">
+          <div className="w-12 h-12 mx-auto rounded-2xl bg-velora-ivory-200 flex items-center justify-center text-velora-charcoal-light">
             <Lock className="w-5 h-5" />
           </div>
-          <h1 className="font-serif text-xl font-bold text-velora-green">{t('login.title')}</h1>
-          <p className="text-xs text-velora-green/70">{t('login.subtitle')}</p>
+          <h1 className="font-serif text-xl font-bold text-velora-charcoal">{t('login.title')}</h1>
+          <p className="text-xs text-velora-charcoal-light">{t('login.subtitle')}</p>
         </div>
 
         {session && !roles.includes(session.user.role) && (
-          <div className="p-3 rounded-xl bg-velora-ivory-100 border border-velora-ivory-200 text-xs text-velora-green/80 flex items-center justify-between gap-2">
+          <div className="p-3 rounded-xl bg-velora-ivory-100 border border-velora-ivory-200 text-xs text-velora-charcoal-light flex items-center justify-between gap-2">
             <span>{t('login.wrongRole')}</span>
             <Button variant="ghost" size="sm" onClick={logout}>
               {t('common.signOut')}

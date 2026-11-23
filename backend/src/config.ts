@@ -9,6 +9,7 @@ const envSchema = z.object({
   SALON_TIMEZONE: z.string().default('Asia/Kolkata'),
   DEFAULT_SALON_NAME: z.string().default('Velora Salon'),
   DATABASE_URL: z.string().optional(),
+  TEST_DATABASE_URL: z.string().optional(),
   MIGRATION_URL: z.string().optional(),
   DATABASE_SSL_CA: z.string().min(1).optional(),
   JWT_SECRET: z.string().min(32),

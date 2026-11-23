@@ -51,11 +51,21 @@ describe.skipIf(!TEST_DB)('Staff, display & admin flow (real PostgreSQL)', () =>
   }
 
   beforeAll(async () => {
-    process.env.DATABASE_URL = TEST_DB;
-    process.env.MIGRATION_URL = TEST_DB;
+    process.env.TEST_DATABASE_URL = TEST_DB;
     process.env.NODE_ENV = 'test';
     const dbMod = await import('../src/db/pool.js');
     pool = dbMod.runtimePool;
+    if (!pool) throw new Error('TEST_DATABASE_URL did not configure the isolated test database.');
+    const { config } = await import('../src/config.js');
+    const testTarget = new URL(config.TEST_DATABASE_URL!);
+    const runtimeTarget = config.DATABASE_URL ? new URL(config.DATABASE_URL) : null;
+    if (
+      runtimeTarget &&
+      testTarget.hostname === runtimeTarget.hostname &&
+      testTarget.pathname === runtimeTarget.pathname
+    ) {
+      throw new Error('TEST_DATABASE_URL must not point to the configured runtime database.');
+    }
     await pool.query(
       `TRUNCATE queue_status_logs, queue_entry_services, queue_entries, daily_token_counters RESTART IDENTITY CASCADE`
     );

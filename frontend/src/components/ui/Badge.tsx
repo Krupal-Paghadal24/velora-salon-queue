@@ -5,7 +5,7 @@ import { useLanguage } from '../../i18n/LanguageContext';
 export interface BadgeProps {
   status?: QueueStatus | BarberStatus | 'open' | 'closed' | string;
   label?: string;
-  variant?: 'sage' | 'copper' | 'amber' | 'red' | 'neutral';
+  variant?: 'sage' | 'rose' | 'amber' | 'red' | 'neutral';
   size?: 'sm' | 'md';
   pulse?: boolean;
   className?: string;
@@ -22,7 +22,7 @@ export const Badge: React.FC<BadgeProps> = ({
   const { t } = useLanguage();
 
   // Determine appearance based on status if variant not explicitly provided
-  let determinedVariant: 'sage' | 'copper' | 'amber' | 'red' | 'neutral' = variant || 'neutral';
+  let determinedVariant: 'sage' | 'rose' | 'amber' | 'red' | 'neutral' = variant || 'neutral';
   let displayLabel = label;
 
   if (status) {
@@ -32,7 +32,7 @@ export const Badge: React.FC<BadgeProps> = ({
         displayLabel = displayLabel || t('status.waiting');
         break;
       case 'CALLED':
-        determinedVariant = 'copper';
+        determinedVariant = 'rose';
         displayLabel = displayLabel || t('status.called');
         break;
       case 'IN_SERVICE':
@@ -73,18 +73,18 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const variantStyles = {
     sage: 'bg-velora-sage-light text-velora-sage-dark border-velora-sage/30',
-    copper: 'bg-velora-copper-light text-velora-copper-dark border-velora-copper/30',
+    rose: 'bg-velora-rose-light text-velora-rose-dark border-velora-rose/40',
     amber: 'bg-velora-amber-light text-velora-amber border-velora-amber/30',
     red: 'bg-velora-red-light text-velora-red border-velora-red/30',
-    neutral: 'bg-velora-ivory-200 text-velora-green/70 border-velora-ivory-300',
+    neutral: 'bg-velora-ivory-200 text-velora-charcoal-light border-velora-ivory-300',
   };
 
   const dotColors = {
     sage: 'bg-velora-sage',
-    copper: 'bg-velora-copper',
+    rose: 'bg-velora-rose-dark',
     amber: 'bg-velora-amber',
     red: 'bg-velora-red',
-    neutral: 'bg-velora-green/40',
+    neutral: 'bg-velora-charcoal/40',
   };
 
   const sizeStyles = {

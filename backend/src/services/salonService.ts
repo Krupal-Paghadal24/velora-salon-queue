@@ -8,7 +8,7 @@ import {
   Barber,
   BarberStatusEnum,
 } from '@velora/shared';
-import { calculateEstimatedWaitTime } from '../domain/waitEstimator.js';
+import { estimateForWaiting, loadEstimateContext } from './estimateService.js';
 import { getSalonDateString } from '../utils/date.js';
 
 // Default Seed Data for local fallback when DATABASE_URL is not yet connected
@@ -148,7 +148,7 @@ export class SalonService {
   /**
    * Get public summary for Home screen and customer status
    */
-  static async getPublicSummary(): Promise<PublicSalonSummary> {
+  static async getPublicSummary(includeWaitEstimate = true): Promise<PublicSalonSummary> {
     if (runtimePool) {
       try {
         // Fetch salon settings
@@ -185,7 +185,7 @@ export class SalonService {
         );
 
         // Fetch enabled services
-        const servicesRes = await query<Service>(
+        const servicesRes = await query<Omit<Service, 'price_inr'> & { price_inr: string | number }>(
           'SELECT id, name_en, name_gu, duration_minutes, price_inr::numeric, is_enabled, sort_order FROM services WHERE is_enabled = true ORDER BY sort_order ASC'
         );
 
@@ -201,16 +201,13 @@ export class SalonService {
         );
         const waitingCount = parseInt(waitingRes.rows[0]?.count || '0', 10);
 
-        // Compute approx wait
-        const approxWaitMinutes = calculateEstimatedWaitTime({
-          targetItem: { joinedAt: new Date() },
-          barbers: barbersRes.rows.map((b) => ({
-            barberId: b.id,
-            isOnDuty: b.is_on_duty,
-            status: b.status,
-          })),
-          waitingQueue: [],
-        });
+        // Estimate the wait for a new customer who has not selected a barber yet.
+        const approxWaitMinutes = includeWaitEstimate
+          ? estimateForWaiting(await loadEstimateContext(), {
+              preferred_barber_id: null,
+              joined_at: new Date(),
+            }).estimatedWaitMinutes
+          : null;
 
         return {
           salon: {
@@ -224,11 +221,14 @@ export class SalonService {
           },
           stats: {
             waitingCount,
-            approxWaitMinutes: approxWaitMinutes || (waitingCount > 0 ? waitingCount * 15 : 0),
+            approxWaitMinutes,
             onDutyBarbersCount: barbersRes.rows.length,
           },
           barbers: barbersRes.rows,
-          services: servicesRes.rows,
+          services: servicesRes.rows.map((service) => ({
+            ...service,
+            price_inr: Number(service.price_inr),
+          })),
         };
       } catch (err) {
         console.warn('[SalonService] Error querying PostgreSQL, using fallback:', err);
@@ -265,12 +265,12 @@ export class SalonService {
   }
 
   static async getServices(): Promise<Service[]> {
-    const summary = await this.getPublicSummary();
+    const summary = await this.getPublicSummary(false);
     return summary.services;
   }
 
   static async getBarbers(): Promise<Barber[]> {
-    const summary = await this.getPublicSummary();
+    const summary = await this.getPublicSummary(false);
     return summary.barbers;
   }
 }

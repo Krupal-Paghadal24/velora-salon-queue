@@ -10,14 +10,14 @@ export const NotFoundPage: React.FC = () => {
   return (
     <div className="py-12">
       <EmptyState
-        icon={<FileQuestion className="w-6 h-6 text-velora-copper" />}
+        icon={<FileQuestion className="w-6 h-6 text-velora-gold-dark" />}
         title={t('notfound.title')}
         description={t('notfound.desc')}
       />
       <div className="text-center pt-6">
         <Link
           to="/"
-          className="inline-flex items-center text-xs font-semibold text-velora-copper hover:underline"
+          className="inline-flex items-center text-xs font-semibold text-velora-rose-dark hover:underline"
         >
           {t('notfound.action')} →
         </Link>

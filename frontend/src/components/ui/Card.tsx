@@ -18,7 +18,7 @@ export const Card: React.FC<CardProps> = ({
     default: 'bg-white border border-velora-ivory-300 shadow-sm',
     elevated: 'bg-white border border-velora-ivory-300 shadow-md',
     subtle: 'bg-velora-ivory-100 border border-velora-ivory-200',
-    forest: 'bg-velora-green text-velora-ivory border border-velora-green-dark shadow-sm',
+    forest: 'bg-velora-burgundy text-velora-ivory border border-velora-burgundy-dark shadow-sm',
   };
 
   const paddings = {

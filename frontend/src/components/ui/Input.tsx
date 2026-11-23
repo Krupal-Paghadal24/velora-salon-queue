@@ -14,20 +14,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-xs font-semibold uppercase tracking-wider text-velora-green">
+          <label htmlFor={inputId} className="block text-xs font-semibold uppercase tracking-wider text-velora-charcoal">
             {label}
           </label>
         )}
         <div className="relative rounded-xl">
           {leftIcon && (
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-velora-green/50">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-velora-charcoal-light">
               {leftIcon}
             </div>
           )}
           <input
             id={inputId}
             ref={ref}
-            className={`w-full min-h-[44px] rounded-xl border bg-white px-3.5 py-2.5 text-sm text-velora-green placeholder-velora-green/40 transition-colors focus:outline-none focus:ring-2 focus:ring-velora-copper/30 focus:border-velora-copper disabled:opacity-50 disabled:bg-velora-ivory-100 ${
+            className={`w-full min-h-[44px] rounded-xl border bg-white px-3.5 py-2.5 text-sm text-velora-charcoal placeholder-velora-charcoal-light transition-colors focus:outline-none focus:ring-2 focus:ring-velora-rose/30 focus:border-velora-rose disabled:opacity-50 disabled:bg-velora-ivory-100 ${
               leftIcon ? 'pl-10' : ''
             } ${
               error
@@ -40,7 +40,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {error ? (
           <p className="text-xs text-velora-red font-medium">{error}</p>
         ) : helperText ? (
-          <p className="text-xs text-velora-green/60">{helperText}</p>
+          <p className="text-xs text-velora-charcoal-light">{helperText}</p>
         ) : null}
       </div>
     );

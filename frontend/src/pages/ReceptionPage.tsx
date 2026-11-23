@@ -49,8 +49,8 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-velora-ivory-300 pb-4">
         <div>
-          <h1 className="font-serif text-2xl md:text-3xl font-bold text-velora-green">{t('reception.title')}</h1>
-          <p className="text-xs text-velora-green/70">{t('reception.subtitle')}</p>
+          <h1 className="font-serif text-2xl md:text-3xl font-bold text-velora-charcoal">{t('reception.title')}</h1>
+          <p className="text-xs text-velora-charcoal-light">{t('reception.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
           {!connected && (
@@ -58,7 +58,7 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
               <WifiOff className="w-3 h-3" /> {t('track.reconnecting')}
             </span>
           )}
-          <Button variant="copper" size="sm" leftIcon={<UserPlus className="w-4 h-4" />} onClick={() => setShowWalkin(true)}>
+          <Button variant="primary" size="sm" leftIcon={<UserPlus className="w-4 h-4" />} onClick={() => setShowWalkin(true)}>
             {t('action.addWalkin')}
           </Button>
         </div>
@@ -68,7 +68,7 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
         <div
           role={notice.kind === 'error' ? 'alert' : 'status'}
           className={`p-3 rounded-xl text-xs font-medium border ${
-            notice.kind === 'error' ? 'bg-white border-velora-red/40 text-velora-red' : 'bg-velora-ivory-100 border-velora-ivory-200 text-velora-green'
+            notice.kind === 'error' ? 'bg-white border-velora-red/40 text-velora-red' : 'bg-velora-ivory-100 border-velora-ivory-200 text-velora-charcoal'
           }`}
         >
           {notice.text}
@@ -107,24 +107,24 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
         <>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { label: t('rec.waiting'), value: board.stats.waiting, cls: 'text-velora-green' },
+              { label: t('rec.waiting'), value: board.stats.waiting, cls: 'text-velora-charcoal' },
               { label: t('rec.inService'), value: board.stats.in_service + board.stats.called, cls: 'text-velora-sage-dark' },
-              { label: t('rec.done'), value: board.stats.done, cls: 'text-velora-green' },
+              { label: t('rec.done'), value: board.stats.done, cls: 'text-velora-charcoal' },
               {
                 label: t('rec.avgWait'),
                 value: board.stats.avg_wait_minutes === null ? '—' : `~${board.stats.avg_wait_minutes}m`,
-                cls: 'text-velora-copper',
+                cls: 'text-velora-rose-dark',
               },
             ].map((s) => (
               <div key={s.label} className="bg-white rounded-2xl p-4 border border-velora-ivory-300 text-center">
-                <p className="text-xs text-velora-green/60 uppercase font-bold tracking-wider">{s.label}</p>
+                <p className="text-xs text-velora-charcoal-light uppercase font-bold tracking-wider">{s.label}</p>
                 <p className={`text-2xl font-serif font-bold mt-1 ${s.cls}`}>{s.value}</p>
               </div>
             ))}
           </div>
 
           <div className="space-y-3">
-            <h2 className="font-serif text-lg font-semibold text-velora-green">{t('rec.lanes')}</h2>
+            <h2 className="font-serif text-lg font-semibold text-velora-charcoal">{t('rec.lanes')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {board.barbers.map((b) => {
                 const active = activeFor(b);
@@ -133,19 +133,19 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
                 return (
                   <Card key={b.id} variant="default" padding="sm" className="space-y-3">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-serif font-bold text-sm text-velora-green">{b.name}</span>
+                      <span className="font-serif font-bold text-sm text-velora-charcoal">{b.name}</span>
                       {b.is_on_duty ? (
                         <Badge status={active ? 'BUSY' : b.status} size="sm" />
                       ) : (
                         <Badge variant="neutral" label={t('rec.offDuty')} size="sm" />
                       )}
                     </div>
-                    <div className="text-xs text-velora-green/70 space-y-1 min-h-[3rem]">
+                    <div className="text-xs text-velora-charcoal-light space-y-1 min-h-[3rem]">
                       {active ? (
                         <>
                           <p>
                             {t('rec.nowServing')}:{' '}
-                            <strong className="text-velora-green">
+                            <strong className="text-velora-charcoal">
                               {formatToken(active.daily_token)} ({active.customer_name})
                             </strong>
                           </p>
@@ -177,7 +177,7 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
                     )}
                     {!active && (
                       <Button
-                        variant={canCall ? 'copper' : 'secondary'}
+                        variant={canCall ? 'primary' : 'secondary'}
                         size="sm"
                         className="w-full"
                         disabled={!canCall}
@@ -223,11 +223,11 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
           </div>
 
           <div className="space-y-3">
-            <h2 className="font-serif text-lg font-semibold text-velora-green">
+            <h2 className="font-serif text-lg font-semibold text-velora-charcoal">
               {t('rec.queue')} ({waiting.length})
             </h2>
             {waiting.length === 0 ? (
-              <Card variant="subtle" padding="md" className="text-sm text-velora-green/70 text-center">
+              <Card variant="subtle" padding="md" className="text-sm text-velora-charcoal-light text-center">
                 {t('rec.noQueue')}
               </Card>
             ) : (
@@ -235,11 +235,11 @@ const ReceptionBoard: React.FC<{ token: string }> = ({ token }) => {
                 {waiting.map((e) => (
                   <Card key={e.id} variant="default" padding="sm" className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
                     <div className="flex items-center gap-4 min-w-0">
-                      <span className="font-serif text-2xl font-extrabold text-velora-green w-16 shrink-0">{formatToken(e.daily_token)}</span>
-                      <div className="min-w-0 text-xs text-velora-green/70">
-                        <p className="text-sm font-semibold text-velora-green truncate">
+                      <span className="font-serif text-2xl font-extrabold text-velora-charcoal w-16 shrink-0">{formatToken(e.daily_token)}</span>
+                      <div className="min-w-0 text-xs text-velora-charcoal-light">
+                        <p className="text-sm font-semibold text-velora-charcoal truncate">
                           {e.customer_name} · {e.customer_phone}
-                          {e.is_walk_in && <span className="ml-2 text-[10px] uppercase text-velora-copper">{t('rec.walkin')}</span>}
+                          {e.is_walk_in && <span className="ml-2 text-[10px] uppercase text-velora-rose-dark">{t('rec.walkin')}</span>}
                         </p>
                         <p className="truncate">{svcNames(e)} · {e.total_duration_minutes}m</p>
                         <p>
@@ -313,32 +313,37 @@ const WalkinForm: React.FC<{ token: string; onClose: () => void; onDone: (msg: s
   return (
     <Card variant="elevated" padding="md" className="space-y-4">
       <form onSubmit={submit} className="space-y-4">
-        <h2 className="font-serif text-lg font-bold text-velora-green">{t('walkin.title')}</h2>
+        <h2 className="font-serif text-lg font-bold text-velora-charcoal">{t('walkin.title')}</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           <Input label={t('walkin.name')} value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={60} />
           <Input label={t('walkin.phone')} value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" required />
         </div>
         <div className="space-y-1.5">
-          <p className="block text-xs font-semibold uppercase tracking-wider text-velora-green">{t('walkin.services')}</p>
+          <p className="block text-xs font-semibold uppercase tracking-wider text-velora-charcoal">{t('walkin.services')}</p>
           <div className="grid sm:grid-cols-2 gap-2">
             {services.map((s) => (
-              <label key={s.id} className={`flex items-center gap-2 min-h-[44px] px-3 rounded-xl border text-sm cursor-pointer ${selected.includes(s.id) ? 'border-velora-copper bg-velora-ivory-100' : 'border-velora-ivory-300 bg-white'}`}>
-                <input type="checkbox" checked={selected.includes(s.id)} onChange={() => toggle(s.id)} />
+              <label key={s.id} className={`flex items-center gap-2 min-h-[44px] px-3 rounded-xl border text-sm cursor-pointer ${selected.includes(s.id) ? 'border-velora-rose bg-velora-ivory-100' : 'border-velora-ivory-300 bg-white'}`}>
+                <input
+                  type="checkbox"
+                  className="accent-velora-burgundy focus-visible:outline focus-visible:outline-2 focus-visible:outline-velora-rose"
+                  checked={selected.includes(s.id)}
+                  onChange={() => toggle(s.id)}
+                />
                 <span className="flex-1">{language === 'gu' ? s.name_gu : s.name_en}</span>
-                <span className="text-xs text-velora-green/60">{s.duration_minutes}m · ₹{Number(s.price_inr).toFixed(0)}</span>
+                <span className="text-xs text-velora-charcoal-light">{s.duration_minutes}m · ₹{Number(s.price_inr).toFixed(0)}</span>
               </label>
             ))}
           </div>
         </div>
         <div className="space-y-1.5">
-          <label htmlFor="walkin-barber" className="block text-xs font-semibold uppercase tracking-wider text-velora-green">
+          <label htmlFor="walkin-barber" className="block text-xs font-semibold uppercase tracking-wider text-velora-charcoal">
             {t('walkin.barber')}
           </label>
           <select
             id="walkin-barber"
             value={barberId}
             onChange={(e) => setBarberId(e.target.value)}
-            className="w-full min-h-[44px] rounded-xl border border-velora-ivory-300 bg-white px-3 text-sm text-velora-green"
+            className="w-full min-h-[44px] rounded-xl border border-velora-ivory-300 bg-white px-3 text-sm text-velora-charcoal focus:outline-none focus:ring-2 focus:ring-velora-rose/30 focus:border-velora-rose"
           >
             <option value="">{t('rec.any')}</option>
             {barbers.map((b) => (
@@ -350,7 +355,7 @@ const WalkinForm: React.FC<{ token: string; onClose: () => void; onDone: (msg: s
         </div>
         {error && <p className="text-xs text-velora-red font-medium" role="alert">{error}</p>}
         <div className="flex gap-2">
-          <Button type="submit" variant="copper" isLoading={busy} disabled={selected.length === 0}>
+          <Button type="submit" variant="primary" isLoading={busy} disabled={selected.length === 0}>
             {t('walkin.submit')}
           </Button>
           <Button type="button" variant="secondary" onClick={onClose}>

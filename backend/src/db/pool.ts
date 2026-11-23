@@ -38,8 +38,12 @@ function createPool(connectionString?: string, maxClients: number = 10): pg.Pool
   });
 }
 
+// Tests must opt in to a dedicated database; never inherit the development DATABASE_URL.
+const runtimeDatabaseUrl =
+  config.NODE_ENV === 'test' ? config.TEST_DATABASE_URL : config.DATABASE_URL;
+
 // Runtime Pool (Transaction pooler, Port 6543)
-export const runtimePool = createPool(config.DATABASE_URL, 10);
+export const runtimePool = createPool(runtimeDatabaseUrl, 10);
 
 // Migration Pool (Session pooler, Port 5432)
 export function createMigrationPool(migrationUrl?: string): pg.Pool | null {
@@ -53,7 +57,8 @@ export function requireMigrationPool(pool: pg.Pool | null): pg.Pool {
   return pool;
 }
 
-export const migrationPool = createMigrationPool(config.MIGRATION_URL);
+export const migrationPool =
+  config.NODE_ENV === 'test' ? null : createMigrationPool(config.MIGRATION_URL);
 
 /**
  * Execute a query with the runtime pool, or throw helpful error if DATABASE_URL is not configured.

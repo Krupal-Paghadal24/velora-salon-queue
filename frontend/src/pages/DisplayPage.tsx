@@ -38,16 +38,16 @@ export const DisplayPage: React.FC = () => {
 
   return (
     <TvLayout>
-      <div className="flex items-center justify-between border-b border-velora-green-light pb-6">
+      <div className="flex items-center justify-between border-b border-velora-burgundy-light pb-6">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-velora-copper text-white font-serif font-bold text-2xl flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-velora-burgundy text-white font-serif font-bold text-2xl flex items-center justify-center">
             V
           </div>
           <div>
             <h1 className="font-serif font-bold text-3xl md:text-4xl text-velora-ivory tracking-tight">
               {data?.salon_name || 'Velora Salon'}
             </h1>
-            <p className="text-xs uppercase tracking-widest text-velora-copper font-medium mt-0.5">
+            <p className="text-xs uppercase tracking-widest text-velora-gold font-medium mt-0.5">
               Live Queue Display • પ્રતિક્ષા કક્ષ ડિસ્પ્લે
             </p>
           </div>
@@ -55,13 +55,13 @@ export const DisplayPage: React.FC = () => {
 
         <div className="flex items-center space-x-6 text-velora-ivory/80 text-sm">
           <div className="flex items-center space-x-2">
-            {live ? <Wifi className="w-4 h-4 text-velora-sage animate-pulse" /> : <WifiOff className="w-4 h-4 text-velora-copper" />}
-            <span className={`text-xs uppercase tracking-wider font-semibold ${live ? 'text-velora-sage' : 'text-velora-copper'}`}>
+            {live ? <Wifi className="w-4 h-4 text-velora-sage-light animate-pulse" /> : <WifiOff className="w-4 h-4 text-velora-gold" />}
+            <span className={`text-xs uppercase tracking-wider font-semibold ${live ? 'text-velora-sage-light' : 'text-velora-gold'}`}>
               {live ? t('track.live') : t('display.offline')}
             </span>
           </div>
           <div className="flex items-center space-x-2 text-xl font-mono font-semibold text-velora-ivory">
-            <Clock className="w-5 h-5 text-velora-copper" />
+            <Clock className="w-5 h-5 text-velora-gold" />
             <span>{time}</span>
           </div>
         </div>
@@ -69,8 +69,8 @@ export const DisplayPage: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-auto py-8">
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between border-b border-velora-green-light/60 pb-2">
-            <h2 className="font-serif text-2xl font-bold text-velora-copper tracking-wide">
+          <div className="flex items-center justify-between border-b border-velora-burgundy-light/60 pb-2">
+            <h2 className="font-serif text-2xl font-bold text-velora-gold tracking-wide">
               {t('display.nowServing')} / અત્યારે સેવા
             </h2>
             <span className="text-xs text-velora-ivory/60 uppercase tracking-widest">{t('display.activeStations')}</span>
@@ -80,17 +80,17 @@ export const DisplayPage: React.FC = () => {
             {(data?.stations ?? []).map((station, i) => (
               <div
                 key={station.barber_name}
-                className="bg-velora-green rounded-3xl p-6 border border-velora-green-light shadow-md flex flex-col justify-between h-44"
+                className="bg-velora-burgundy rounded-3xl p-6 border border-velora-burgundy-light shadow-sm flex flex-col justify-between h-44"
               >
                 <div className="flex justify-between items-start">
                   <span className="text-sm font-semibold text-velora-ivory/80">{station.barber_name}</span>
                   <span
                     className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
                       station.state === 'CALLED'
-                        ? 'bg-velora-copper text-white animate-pulse'
+                        ? 'bg-velora-rose-dark text-white animate-pulse'
                         : station.state === 'SERVING'
-                        ? 'bg-velora-sage text-velora-green-dark'
-                        : 'bg-velora-green-light text-velora-ivory/70'
+                        ? 'bg-velora-sage text-white'
+                        : 'bg-velora-burgundy-light text-velora-ivory/70'
                     }`}
                   >
                     {station.state === 'CALLED'
@@ -109,7 +109,7 @@ export const DisplayPage: React.FC = () => {
                       {formatToken(station.token)}
                     </p>
                   ) : (
-                    <p className="font-serif font-black tracking-tight text-2xl text-velora-sage">
+                    <p className="font-serif font-black tracking-tight text-2xl text-velora-sage-light">
                       {station.state === 'ON_BREAK' ? t('display.onBreakBadge') : t('display.ready')}
                     </p>
                   )}
@@ -124,7 +124,7 @@ export const DisplayPage: React.FC = () => {
         </div>
 
         <div className="space-y-4">
-          <div className="border-b border-velora-green-light/60 pb-2">
+          <div className="border-b border-velora-burgundy-light/60 pb-2">
             <h2 className="font-serif text-2xl font-bold text-velora-ivory tracking-wide">
               {t('display.nextInLine')} / આગળનો ક્રમ
             </h2>
@@ -141,10 +141,10 @@ export const DisplayPage: React.FC = () => {
             {(data?.next ?? []).map((item, idx) => (
               <div
                 key={item.token}
-                className="bg-velora-green/70 rounded-2xl p-4 border border-velora-green-light/60 flex items-center justify-between"
+                className="bg-velora-burgundy/80 rounded-2xl p-4 border border-velora-burgundy-light/60 flex items-center justify-between"
               >
                 <div className="flex items-center space-x-3">
-                  <span className="text-xs text-velora-copper font-serif font-bold">#{idx + 1}</span>
+                  <span className="text-xs text-velora-gold font-serif font-bold">#{idx + 1}</span>
                   <div>
                     <span className="font-serif font-bold text-2xl text-velora-ivory">{formatToken(item.token)}</span>
                     <p className="text-[11px] text-velora-ivory/60">
@@ -152,7 +152,7 @@ export const DisplayPage: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-velora-sage">
+                <span className="text-xs font-semibold text-velora-sage-light">
                   {item.estimated_wait_minutes === null ? '—' : `~${item.estimated_wait_minutes}m`}
                 </span>
               </div>
@@ -161,7 +161,7 @@ export const DisplayPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-t border-velora-green-light pt-4 flex items-center justify-between text-xs text-velora-ivory/60">
+      <div className="border-t border-velora-burgundy-light pt-4 flex items-center justify-between text-xs text-velora-ivory/60">
         <p>{t('display.footer')}</p>
       </div>
     </TvLayout>

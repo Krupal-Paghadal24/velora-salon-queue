@@ -2,9 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --velora-burgundy: 72 38 56;
+  --velora-burgundy-dark: 53 28 42;
+  --velora-burgundy-light: 103 62 81;
+  --velora-rose: 184 117 131;
+  --velora-rose-dark: 121 71 84;
+  --velora-rose-light: 249 237 239;
+  --velora-ivory: 248 243 239;
+  --velora-ivory-200: 239 230 223;
+  --velora-ivory-300: 228 214 204;
+  --velora-gold: 197 161 107;
+  --velora-gold-dark: 136 101 54;
+  --velora-gold-light: 249 243 232;
+  --velora-charcoal: 52 45 50;
+  --velora-charcoal-dark: 43 36 41;
+  --velora-charcoal-light: 95 83 91;
+  --velora-white: 255 255 255;
+  --velora-sage: 49 97 70;
+  --velora-sage-light: 233 242 235;
+  --velora-sage-dark: 38 79 56;
+  --velora-amber: 145 79 15;
+  --velora-amber-light: 253 243 218;
+  --velora-red: 180 35 47;
+  --velora-red-light: 254 234 235;
+}
+
 @layer base {
   body {
-    @apply bg-velora-ivory text-velora-green;
+    @apply bg-velora-ivory text-velora-charcoal;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 }

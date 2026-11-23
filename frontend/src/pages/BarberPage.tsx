@@ -88,8 +88,8 @@ const Station: React.FC<{ barberId: string; token: string }> = ({ barberId, toke
     <div className="max-w-md mx-auto space-y-6">
       <div className="flex items-center justify-between border-b border-velora-ivory-300 pb-4 gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-velora-green">{barber.name}</h1>
-          <p className="text-xs text-velora-green/70">{barber.speciality || t('barber.station')}</p>
+          <h1 className="font-serif text-2xl font-bold text-velora-charcoal">{barber.name}</h1>
+          <p className="text-xs text-velora-charcoal-light">{barber.speciality || t('barber.station')}</p>
         </div>
         <div className="flex flex-col items-end gap-2">
           {barber.is_on_duty ? (
@@ -116,12 +116,12 @@ const Station: React.FC<{ barberId: string; token: string }> = ({ barberId, toke
           <>
             <Badge status={active.status} size="md" pulse className="mx-auto" />
             <div className="space-y-1">
-              <p className="font-serif text-5xl font-extrabold text-velora-green">{formatToken(active.daily_token)}</p>
-              <p className="text-base font-medium text-velora-green">{active.customer_name}</p>
+              <p className="font-serif text-5xl font-extrabold text-velora-charcoal">{formatToken(active.daily_token)}</p>
+              <p className="text-base font-medium text-velora-charcoal">{active.customer_name}</p>
             </div>
-            <div className="p-3 bg-velora-ivory-100 rounded-xl border border-velora-ivory-200 text-xs text-velora-green/80 text-left space-y-1">
-              <p className="font-semibold text-velora-green">{svcText(active.services)}</p>
-              <p className="text-velora-green/60">
+            <div className="p-3 bg-velora-ivory-100 rounded-xl border border-velora-ivory-200 text-xs text-velora-charcoal-light text-left space-y-1">
+              <p className="font-semibold text-velora-charcoal">{svcText(active.services)}</p>
+              <p className="text-velora-charcoal-light">
                 {active.status === 'CALLED'
                   ? t('barber.calledMsg')
                   : `${t('barber.elapsed')}: ${elapsed} ${t('common.minutes')} / ${t('barber.remaining')}: ~${remaining} ${t('common.minutes')}`}
@@ -146,10 +146,10 @@ const Station: React.FC<{ barberId: string; token: string }> = ({ barberId, toke
           </>
         ) : (
           <>
-            <p className="text-xs uppercase tracking-widest text-velora-green/60 font-semibold">{t('barber.noActive')}</p>
+            <p className="text-xs uppercase tracking-widest text-velora-charcoal-light font-semibold">{t('barber.noActive')}</p>
             <Button
               size="lg"
-              variant={canCall ? 'copper' : 'secondary'}
+              variant={canCall ? 'primary' : 'secondary'}
               className="w-full"
               leftIcon={<PhoneCall className="w-5 h-5" />}
               disabled={!canCall || data.compatible_waiting_count === 0}
@@ -158,31 +158,31 @@ const Station: React.FC<{ barberId: string; token: string }> = ({ barberId, toke
             >
               {t('action.callNext')}
             </Button>
-            <p className="text-[11px] text-velora-green/60">{t('barber.callNote')}</p>
+            <p className="text-[11px] text-velora-charcoal-light">{t('barber.callNote')}</p>
           </>
         )}
       </Card>
 
       <Card variant="subtle" padding="md" className="space-y-2">
         <div className="flex justify-between items-center text-xs">
-          <span className="font-semibold text-velora-green">{t('barber.next')}</span>
-          <span className="text-velora-green/60">
+          <span className="font-semibold text-velora-charcoal">{t('barber.next')}</span>
+          <span className="text-velora-charcoal-light">
             {data.compatible_waiting_count} {t('barber.waitingCount')}
           </span>
         </div>
         {next ? (
           <div className="flex justify-between items-center gap-3">
             <div>
-              <p className="font-serif font-bold text-base text-velora-green">{formatToken(next.daily_token)}</p>
-              <p className="text-xs text-velora-green/70">
+              <p className="font-serif font-bold text-base text-velora-charcoal">{formatToken(next.daily_token)}</p>
+              <p className="text-xs text-velora-charcoal-light">
                 {svcText(next.services)}
                 {next.requested_me ? ` · ${t('barber.requestedMe')}` : ''}
               </p>
             </div>
-            <span className="text-xs text-velora-green/60 font-medium shrink-0">{minutesBetween(next.joined_at, now)}m</span>
+            <span className="text-xs text-velora-charcoal-light font-medium shrink-0">{minutesBetween(next.joined_at, now)}m</span>
           </div>
         ) : (
-          <p className="text-xs text-velora-green/70">{t('barber.nextNone')}</p>
+          <p className="text-xs text-velora-charcoal-light">{t('barber.nextNone')}</p>
         )}
       </Card>
 
@@ -207,12 +207,12 @@ const StationPicker: React.FC = () => {
   const { data } = useLiveResource<Barber[]>(() => apiFetch<Barber[]>('/api/barbers'), 'barbers-list', 60000);
   return (
     <div className="max-w-md mx-auto space-y-3">
-      <h1 className="font-serif text-xl font-bold text-velora-green">{t('barber.pick')}</h1>
+      <h1 className="font-serif text-xl font-bold text-velora-charcoal">{t('barber.pick')}</h1>
       {(data || []).map((b) => (
         <Link key={b.id} to={`/barber/${b.id}`} className="block">
-          <Card variant="default" padding="sm" className="flex items-center justify-between hover:border-velora-copper">
-            <span className="font-serif font-bold text-velora-green">{b.name}</span>
-            <span className="text-xs text-velora-green/60">{b.speciality}</span>
+          <Card variant="default" padding="sm" className="flex items-center justify-between hover:border-velora-rose">
+            <span className="font-serif font-bold text-velora-charcoal">{b.name}</span>
+            <span className="text-xs text-velora-charcoal-light">{b.speciality}</span>
           </Card>
         </Link>
       ))}
